@@ -26,7 +26,12 @@
   <body>
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
+    <% flash.each do |name, message| %>
+      <div class="<%= name %>"><%= message %></div>
+    <% end %>
+    <%= link_to "Home", events_path %>
     <% if user_signed_in? %>
+      <%= link_to "My Events", current_user %>
       <%= button_to "Log Out", destroy_user_session_path, method: "delete" %>
     <% end %>
     <%= yield %>

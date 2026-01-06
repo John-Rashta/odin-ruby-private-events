@@ -1,7 +1,8 @@
-<h2>Events</h2>
-<% @events.each do |event| %>
-    <div>
-        <h4><%= event.location %></h4>
-        <div><%= event.event_date %></div>
-    </div>
-<% end %>
+<div>
+    <div>Past Events</div>
+    <%= render @user.attended_events.past %>
+</div>
+<div>
+    <div>Future Events</div>
+    <%= render @user.attended_events.future %>
+</div>

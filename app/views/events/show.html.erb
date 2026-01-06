@@ -3,4 +3,7 @@
         <h5><%= @event.creator.username %> </h5>
         <div><%= @event.event_date %></div>
         <div>Created At: <%= @event.created_at %></div>
+        <% @event.attendees.each do |attendee| %>
+            <div><%= attendee.username %> </div>
+        <% end %>
     </div>

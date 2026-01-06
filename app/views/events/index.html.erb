@@ -9,6 +9,9 @@
 <h2>All Events</h2>
 <% @events.each do |event| %>
     <div>
+        <% if user_signed_in? && current_user.id != event.creator.id && !event.attendee_ids.include?(current_user.id) %>
+            <%= button_to "Join Event", event_attendee_index_path , method: "post", params: {event: event.id}  %>
+        <% end %>
         <h4><%= event.location %></h4>
         <div><%= event.event_date %></div>
     </div>
