@@ -7,4 +7,6 @@ class Event < ApplicationRecord
 
   scope :past, -> { where("event_date < ?", Time.now) }
   scope :future, -> { where("event_date >= ?", Time.now) }
+
+  enum :visibility, { private_event: 0, public_event: 1 }
 end

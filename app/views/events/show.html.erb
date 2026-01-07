@@ -1,9 +1,25 @@
 <div>
-        <h4><%= @event.location %></h4>
-        <h5><%= @event.creator.username %> </h5>
-        <div><%= @event.event_date %></div>
-        <div>Created At: <%= @event.created_at %></div>
-        <% @event.attendees.each do |attendee| %>
-            <div><%= attendee.username %> </div>
+    <% if user_signed_in? %>
+        <% if !@event.attendee_ids.include?(current_user.id)%>
+            <%= button_to "Join Event", event_attendee_index_path , method: "post", params: {event: @event.id}  %>
+        <% else %>
+            <%= button_to "Leave Event", event_attendee_path , method: "delete", params: {event: @event.id}  %>
         <% end %>
+        <% if current_user.id == @event.creator.id%>
+            <%= button_to "Edit Event", edit_event_path(@event), method: "get" %>
+            <%= button_to "Delete Event", @event , method: "delete", data: { turbo_confirm: "Are you sure?"} %>
+            <% if @event.private_event?%>
+                <%= button_to "Make Public", event_path(@event) , method: "patch", params: {event: {visibility: 1}}  %>
+            <% else %>
+                <%= button_to "Make Private", event_path(@event) , method: "patch", params: {event: {visibility: 0}}  %>
+            <% end %>
+        <% end %>
+    <% end %>
+    <h4><%= @event.location %></h4>
+    <h5><%= @event.creator.username %> </h5>
+    <div><%= @event.event_date %></div>
+    <div>Created At: <%= @event.created_at %></div>
+    <% @event.attendees.each do |attendee| %>
+        <div><%= attendee.username %> </div>
+    <% end %>
     </div>

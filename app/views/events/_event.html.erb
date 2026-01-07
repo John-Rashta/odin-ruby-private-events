@@ -1,4 +1,14 @@
 <div>
-    <h4><%= event.location %></h4>
-    <div><%= event.event_date %></div>
+    <% if event.public_event? || user_signed_in? && (event.creator.id == current_user.id || event.attendee_ids.include?(current_user.id)) %>
+        <% if user_signed_in? %>
+            <% if !event.attendee_ids.include?(current_user.id)%>
+                <%= button_to "Join Event", event_attendee_index_path , method: "post", params: {event: event.id}  %>
+            <% else %>
+                <%= button_to "Leave Event", event_attendee_path , method: "delete", params: {event: event.id}  %>
+            <% end %>
+        <% end %>
+        <%= button_to "Show Event", event , method: "get", params: {event: event.id}  %>
+        <h4><%= event.location %></h4>
+        <div><%= event.event_date %></div>
+    <% end %>
 </div>

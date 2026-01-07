@@ -3,19 +3,21 @@ class EventAttendeeController < ApplicationController
   def create
     @attendance = current_user.event_attendees.build(attended_event_id: event_params)
     if @attendance.save
-      flash.now[:success] = "Successfully joined Event!"
+      flash[:notice] = "Successfully joined Event!"
     else
-      flash.now[:error] = "Failed to join Event!"
+      flash[:alert] = "Failed to join Event!"
     end
+    redirect_back(fallback_location: root_path)
   end
 
   def destroy
     @attendance = current_user.event_attendees.where(attended_event_id: event_params).first
     if @attendance.destroy
-      flash.now[:success] = "Successfully left Event!"
+      flash[:notice] = "Successfully left Event!"
     else
-      flash.now[:error] = "Failed to leave Event!"
+      flash[:alert] = "Failed to leave Event!"
     end
+    redirect_back(fallback_location: root_path)
   end
 
   private
