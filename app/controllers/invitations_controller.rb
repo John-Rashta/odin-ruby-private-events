@@ -21,13 +21,13 @@ class InvitationsController < ApplicationController
     redirect_back(fallback_location: root_path)
   end
 
+  private
+
   def event_params
     @filtered_params = params.expect(info: [ :user, :event ])
     @filtered_params[:user] = User.where(email: @filtered_params[:user]).first if @filtered_params.key?(:user)
     @filtered_params
   end
-
-  private
 
   def validate_invitation
     if !@filtered_params[:user] || current_user.id == @filtered_params[:user].id ||
