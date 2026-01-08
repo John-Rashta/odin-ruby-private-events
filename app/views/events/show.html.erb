@@ -6,6 +6,14 @@
             <%= button_to "Leave Event", event_attendee_path , method: "delete", params: {event: @event.id}  %>
         <% end %>
         <% if current_user.id == @event.creator.id%>
+                <%= form_with scope: :info, url: "/invitations", method: "post" do |form| %>
+                    <div>
+                        <%= form.label :user %>
+                        <%= form.text_field :user %>
+                    </div>
+                    <%= form.hidden_field :event, value: @event.id %>
+                    <%= form.submit %>
+                <% end %>
             <%= button_to "Edit Event", edit_event_path(@event), method: "get" %>
             <%= button_to "Delete Event", @event , method: "delete", data: { turbo_confirm: "Are you sure?"} %>
             <% if @event.private_event?%>

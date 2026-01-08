@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   resources :events
   resources :users, only: :show
   resources :event_attendee, only: :create
+  resources :invitations, only: [ "create", "destroy" ]
   delete :event_attendee, to: "event_attendee#destroy"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

@@ -7,3 +7,12 @@
     <div>Future Events</div>
     <%= render @user.attended_events.future %>
 </div>
+
+<% if user_signed_in? %>
+    <% current_user.invitations.each do |invitation| %>
+        <li><%= invitation.invitation_event.location %></li>
+        <%= button_to "Show Event", invitation.invitation_event , method: "get", params: {event: invitation.invitation_event.id}  %>
+        <%= button_to "Accept", event_attendee_index_path , method: "post", params: {event: invitation.invitation_event.id}  %>
+        <%= button_to "Reject", invitation_path , method: "delete", params: {info: {event: invitation.invitation_event.id}}  %>
+      <% end %>
+<% end %>

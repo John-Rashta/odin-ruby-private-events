@@ -1,8 +1,12 @@
 class EventAttendeeController < ApplicationController
   before_action :authenticate_user!
   def create
-    @attendance = current_user.event_attendees.build(attended_event_id: event_params)
+    @event = event_params
+    @attendance = current_user.event_attendees.build(attended_event_id: @event)
     if @attendance.save
+      if @invitation = current_user.invitations.where(invitation_event_id: @event).first
+        @invitation.destroy
+      end
       flash[:notice] = "Successfully joined Event!"
     else
       flash[:alert] = "Failed to join Event!"
